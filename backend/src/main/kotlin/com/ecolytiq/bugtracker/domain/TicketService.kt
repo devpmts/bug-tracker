@@ -11,4 +11,15 @@ class TicketService @Autowired constructor(
     fun getAllTickets(): List<Ticket> {
         return ticketRepository.findAll()
     }
+
+    fun getTicketsSorted(criterion: SortCriterion): List<Ticket> {
+        return ticketRepository.run {
+            when (criterion) {
+                SortCriterion.ID -> findAllByOrderByIdAsc()
+                SortCriterion.TITLE -> findAllByOrderByTitleAsc()
+                SortCriterion.STATUS -> findAllByOrderByStatusAsc()
+                SortCriterion.CREATED_AT -> findAllByOrderByCreatedAtAsc()
+            }
+        }
+    }
 }
